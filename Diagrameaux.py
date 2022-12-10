@@ -87,7 +87,7 @@ class Diagrameaux:
         return int(total)
 
     def __str__(self):
-        return self.values
+        return self.values.__str__()
 
     def __repr__(self):
         return self.values.__repr__()
