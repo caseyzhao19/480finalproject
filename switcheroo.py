@@ -1,5 +1,3 @@
-import copy
-
 import numpy as np
 from Diagrameaux import Diagrameaux
 
@@ -21,6 +19,7 @@ def diagram_to_tabloids(diagram, seen=None):
     if seen is None:
         seen = set()
     if diagram.is_tabloid() and diagram not in seen:
+        print(diagram.dim_but_only_if_tabloid())
         return diagram.dim_but_only_if_tabloid(), {diagram}
     if diagram.is_tabloid():
         return 0, {diagram}
@@ -54,13 +53,18 @@ def straggler_factor(n, k):
 
 # boxes = Diagram([(0, 0), (0, 1), (0, 3), (1, 3), (2, 3)]).values
 # ^ for if you want to type box coordinates instead
-boxes = [[0, 0, 1, 0, 0, 0],
-         [0, 1, 0, 0, 1, 0],
+boxes = [[1, 1, 1, 0, 0, 0],
+         [1, 0, 1, 0, 0, 0],
+         [1, 1, 1, 1, 0, 0],
+         [0, 0, 1, 1, 0, 0],
          [0, 0, 0, 0, 0, 0],
-         [0, 0, 0, 0, 0, 0],
-         [1, 0, 0, 0, 1, 1],
          [0, 0, 0, 0, 0, 0]]
+'''boxes = [[1, 0, 1],
+         [0, 0, 0]]'''
 n = np.count_nonzero(boxes)
 d = Diagrameaux(boxes)
+print(d)
 d, k = stragglers_removed(d)
-print(diagram_to_tabloids(d)[0] * straggler_factor(n, k))
+dim, reached = diagram_to_tabloids(d)
+print(dim * straggler_factor(n, k))
+print(reached)
